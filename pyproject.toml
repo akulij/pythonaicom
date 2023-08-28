@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "aicom"
+version = "0.1.0"
+description = ""
+authors = ["akulij <48361256+akulij@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Telethon = "^1.29.3"
+celery = "^5.3.1"
+pymongo = "^4.5.0"
+redis = "^5.0.0"
+aiohttp = "^3.8.5"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
