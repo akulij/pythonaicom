@@ -48,8 +48,10 @@ async def main():
         if not await joined(channel):
             await client(JoinChannelRequest(channel))
     @client.on(events.NewMessage(chats=channels))
-    async def test(event):
-        print(event)
+    async def comment_post(event: events.NewMessage):
+        post_text = event.message.raw_text # post text without formating. To get markdown-formated text use event.message.text
+        comment_text = await gpt.complete(post_text)
+        await client.send_message(event.chat, comment_text, comment_to=event.message)
 
     await client.run_until_disconnected()
 
