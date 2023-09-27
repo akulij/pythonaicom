@@ -43,10 +43,11 @@ async def joined(c: Channel) -> bool:
     return False
 
 async def main():
-    print(await joined(tab))
-    if not await joined(tab):
-        await client(JoinChannelRequest(tab))
-    @client.on(events.NewMessage(chats=[entity, tab]))
+    channels = await get_channels(client)
+    for channel in channels:
+        if not await joined(channel):
+            await client(JoinChannelRequest(channel))
+    @client.on(events.NewMessage(chats=channels))
     async def test(event):
         print(event)
 
