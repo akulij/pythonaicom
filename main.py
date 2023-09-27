@@ -3,6 +3,7 @@ import json
 
 import redis
 from telethon import TelegramClient
+from telethon.hints import Entity
 from telethon.tl.types import Message, Channel
 from telethon import events
 from telethon.tl.functions.channels import JoinChannelRequest, GetFullChannelRequest
@@ -13,16 +14,17 @@ from async_gpt import GPT
 API_ID = 14858129
 API_HASH = "27145bedb4839158ea59498642c2b904"
 
-API_KEY = "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"
+API_KEY = "sk-PROXYMODE"
+API_ENDPOINT = "http://51.222.31.16:3000/v1"
 
 client = TelegramClient("echo", API_ID, API_HASH)
 r = redis.Redis(host='localhost', port=6379, db=0)
-gpt = GPT(API_KEY, """Тебе дается текст поста в Telegram. Твоя задача придумать к нему комментарий в шуточной форме. Ты мужского рода иу тебя есть блог.
+gpt = GPT(API_KEY, api_endpoint=API_ENDPOINT, system_prompt="""Тебе дается текст поста в Telegram. Твоя задача придумать к нему комментарий в шуточной форме. Ты мужского рода иу тебя есть блог.
 Примеры комментариев:
 Почему-то вспомнился детский стишок про мишку и «все равно его не брошу, потому что он хороший»))
 Сложно только первые 3 месяца😂, потом привычка
 Только при регулярном ведении канала будет результат 🔥 но и посты должны быть интересны""")
-short = GPT(API_KEY, "Сделай короткую выжимку из текста")
+short = GPT(API_KEY, api_endpoint=API_ENDPOINT, system_prompt="Сделай короткую выжимку из текста")
 
 
 async def main():
