@@ -30,7 +30,7 @@ short = GPT(API_KEY, api_endpoint=API_ENDPOINT, system_prompt="Сделай ко
 async def get_channels(client: TelegramClient) -> list[Channel]:
     ch_links: list[str] = []
     with open("channels.txt") as f:
-        ch_links = f.read().split("\n")
+        ch_links = f.read().strip().split("\n")
 
     ch_entities = [await client.get_entity(link) for link in ch_links]
 
