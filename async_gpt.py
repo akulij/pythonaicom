@@ -8,13 +8,14 @@ K = typing.TypeVar("K")
 
 
 class GPT:
-    def __init__(self, api_key: str, system_prompt: str):
+    def __init__(self, api_key: str, system_prompt: str, api_endpoint: str = "https://api.openai.com/v1"):
         self.api_key = api_key
         self.system = system_prompt
         self.headers = {
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {self.api_key}"
                 }
+        self.endpoint = api_endpoint
 
     # async def complete(self, message: str, key: K = None, temperature: float = 1) -> tuple[str, K] | None:
     async def complete(self, message: str, temperature: float = 1) -> str | None:
@@ -29,7 +30,7 @@ class GPT:
                         ],
                 }
             # print(json.dumps(data))
-            response = await session.post("https://api.openai.com/v1/chat/completions", data=json.dumps(data))
+            response = await session.post(f"{self.endpoint}/chat/completions", data=json.dumps(data))
             if response.status != 200: return
             response = await response.json()
 
