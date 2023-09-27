@@ -36,25 +36,13 @@ async def get_channels(client: TelegramClient) -> list[Entity]:
 
     return ch_entities
 
+async def joined(c: Channel) -> bool:
+    channel = await client(GetFullChannelRequest(c))
+    print(channel)
+    if channel: return True
+    return False
+
 async def main():
-    entity = await client.get_entity("https://t.me/engageforsales")
-    # msgs = await client.get_messages(entity.id, limit=1)
-    # print(str(msgs).replace(", ", ",\n "))
-    # msg: Message = msgs[0]
-    # print(len(msg.message))
-    # print(f"Message: \n{msg.message}\n")
-    # s: str = await short.complete(msg.message, temperature=0.7)
-    # print(s)
-    # comment: str = await gpt.complete("Исходя из следующего текста поста, составь комментарий из 2-3 коротких предложений:\n\n"+msg.message+"\n\n2-3 коротких предложения в которых ты описвыаешь ситуацию в виде шутки", temperature=0.7)
-    # print(comment)
-    # await client.send_message(entity, comment, comment_to=msg)
-    tab = await client.get_entity("t.me/testautobeen")
-    print(tab)
-    async def joined(c: Channel) -> bool:
-        channel = await client(GetFullChannelRequest(c))
-        print(channel)
-        if channel: return True
-        return False
     print(await joined(tab))
     if not await joined(tab):
         await client(JoinChannelRequest(tab))
