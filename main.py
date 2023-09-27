@@ -27,6 +27,15 @@ gpt = GPT(API_KEY, api_endpoint=API_ENDPOINT, system_prompt="""Тебе дает
 short = GPT(API_KEY, api_endpoint=API_ENDPOINT, system_prompt="Сделай короткую выжимку из текста")
 
 
+async def get_channels(client: TelegramClient) -> list[Entity]:
+    ch_links: list[str] = []
+    with open("channels.txt") as f:
+        ch_links = f.read().split("\n")
+
+    ch_entities = [await client.get_entity(link) for link in ch_links]
+
+    return ch_entities
+
 async def main():
     entity = await client.get_entity("https://t.me/engageforsales")
     # msgs = await client.get_messages(entity.id, limit=1)
