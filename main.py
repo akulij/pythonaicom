@@ -37,7 +37,10 @@ async def get_channels(client: TelegramClient) -> list[Channel]:
     with open("channels.txt") as f:
         ch_links = f.read().strip().split("\n")
 
-    ch_entities = [await client.get_entity(link) for link in ch_links]
+    async def entwrap(link: str):
+        print(link)
+        return await client.get_entity(link)
+    ch_entities = [await entwrap(link) for link in ch_links]
 
     return ch_entities
 
