@@ -1,7 +1,6 @@
 import asyncio
 import json
 
-import redis
 from telethon import TelegramClient
 from telethon.hints import Entity
 from telethon.tl.types import Message, Channel, User
@@ -20,7 +19,6 @@ API_ENDPOINT = "http://51.222.31.16:3000/v1"
 ADMIN_USER = "akulij"
 
 client = TelegramClient("echo", API_ID, API_HASH)
-r = redis.Redis(host='localhost', port=6379, db=0)
 gpt = GPT(API_KEY, api_endpoint=API_ENDPOINT, system_prompt="""Тебе дается текст поста в Telegram. Твоя задача придумать к нему комментарий в шуточной форме. Ты мужского рода иу тебя есть блог.
 Примеры комментариев:
 Почему-то вспомнился детский стишок про мишку и «все равно его не брошу, потому что он хороший»))
