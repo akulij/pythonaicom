@@ -55,7 +55,7 @@ async def main():
     @client.on(events.NewMessage(chats=channels))
     async def comment_post(event: events.NewMessage):
         post_text = event.message.raw_text # post text without formating. To get markdown-formated text use event.message.text
-        post_link = ""
+        post_link = "" # will be created later
         try:
             comment_text = await gpt.complete(post_text)
         except Exception as e:
