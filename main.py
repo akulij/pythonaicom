@@ -4,7 +4,7 @@ import json
 import redis
 from telethon import TelegramClient
 from telethon.hints import Entity
-from telethon.tl.types import Message, Channel
+from telethon.tl.types import Message, Channel, User
 from telethon import events
 from telethon.tl.functions.channels import JoinChannelRequest, GetFullChannelRequest
 
@@ -17,6 +17,8 @@ API_HASH = "27145bedb4839158ea59498642c2b904"
 API_KEY = "sk-PROXYMODE"
 API_ENDPOINT = "http://51.222.31.16:3000/v1"
 
+ADMIN_USER = "akulij"
+
 client = TelegramClient("echo", API_ID, API_HASH)
 r = redis.Redis(host='localhost', port=6379, db=0)
 gpt = GPT(API_KEY, api_endpoint=API_ENDPOINT, system_prompt="""Тебе дается текст поста в Telegram. Твоя задача придумать к нему комментарий в шуточной форме. Ты мужского рода иу тебя есть блог.
@@ -26,6 +28,9 @@ gpt = GPT(API_KEY, api_endpoint=API_ENDPOINT, system_prompt="""Тебе дает
 Только при регулярном ведении канала будет результат 🔥 но и посты должны быть интересны""")
 short = GPT(API_KEY, api_endpoint=API_ENDPOINT, system_prompt="Сделай короткую выжимку из текста")
 
+
+async def get_admin_user(client: TelegramClient) -> User:
+    return await client.get_entity(ADMIN_USER)
 
 async def get_channels(client: TelegramClient) -> list[Channel]:
     ch_links: list[str] = []
@@ -43,6 +48,7 @@ async def joined(c: Channel) -> bool:
     return False
 
 async def main():
+    admin = await get_admin_user(client)
     channels = await get_channels(client)
     for channel in channels:
         if not await joined(channel):
