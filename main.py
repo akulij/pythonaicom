@@ -53,8 +53,12 @@ async def main():
     admin = await get_admin_user(client)
     channels = await get_channels(client)
     for channel in channels:
+        print(f"checking channel {channel}")
         if not await joined(channel):
             await client(JoinChannelRequest(channel))
+            print(f"joined channel {channel}")
+            await asyncio.sleep(2)
+    print("joined all")
     @client.on(events.NewMessage(chats=channels))
     async def comment_post(event: events.NewMessage):
         post_text = event.message.raw_text # post text without formating. To get markdown-formated text use event.message.text
