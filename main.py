@@ -43,7 +43,6 @@ async def get_channels(client: TelegramClient) -> list[Channel]:
 
 async def joined(c: Channel) -> bool:
     channel = await client(GetFullChannelRequest(c))
-    print(channel)
     if channel: return True
     return False
 
