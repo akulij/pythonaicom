@@ -2,7 +2,7 @@ FROM python:latest
 
 WORKDIR /app
 
-COPY ["pyproject.toml", "config.toml", "poetry.lock*", "echo.session", "./"]
+COPY ["pyproject.toml", "config.toml", "poetry.lock*", "echo.session*", "./"]
 
 RUN python -m pip install poetry
 
