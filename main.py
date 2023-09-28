@@ -55,8 +55,15 @@ async def main():
     @client.on(events.NewMessage(chats=channels))
     async def comment_post(event: events.NewMessage):
         post_text = event.message.raw_text # post text without formating. To get markdown-formated text use event.message.text
-        comment_text = await gpt.complete(post_text)
-        await client.send_message(event.chat, comment_text, comment_to=event.message)
+        post_link = ""
+        try:
+            comment_text = await gpt.complete(post_text)
+        except Exception as e:
+            await client.send_message(admin, f"Unable to generate comment to post {post_link} cause:\n{e}")
+        try:
+            await client.send_message(event.chat, comment_text, comment_to=event.message)
+        except Exception as e:
+            await client.send_message(admin, f"Unable to LEAVE comment to post {post_link} cause:\n{e}")
 
     await client.run_until_disconnected()
 
