@@ -2,3 +2,5 @@
 .DS_Store
 **/*.session
 channels.txt
+.env
+.venv
