@@ -65,6 +65,7 @@ async def main():
             comment_text = await gpt.complete(post_text)
         except Exception as e:
             await client.send_message(admin, f"Unable to generate comment to post {post_link} cause:\n{e}")
+            return
         try:
             await client.send_message(event.chat, comment_text, comment_to=event.message)
         except Exception as e:
